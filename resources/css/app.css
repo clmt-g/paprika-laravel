@@ -71,19 +71,23 @@ header h1 {
 }
 
 /* CONTENU */
+body {
+    background-color: var(--gris-fond);
+    overflow-x: hidden;
+}
 main {
     padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
 }
-
 .card {
     border: none;
-    border-radius: 15px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
+    border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: translateY(-3px);
 }
 
 /* FOOTER */
@@ -125,4 +129,55 @@ footer a:hover {
     background-color: var(--rouge-fonce);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(178,34,34,0.3);
+}
+
+/* form */
+label {
+    font-weight: 600;
+    color: var(--rouge-fonce);
+}
+input, select {
+    margin-bottom: 1rem;
+}
+input:disabled, select:disabled {
+    background-color: #f5f5f5;
+    color: #555;
+}
+.btn-danger {
+    background-color: var(--rouge-paprika);
+    border: none;
+    transition: transform 0.2s ease;
+}
+.btn-danger:hover {
+    background-color: var(--rouge-fonce);
+    transform: translateY(-2px);
+}
+.input-group .btn {
+    border: 1px solid #dee2e6;
+    color: var(--rouge-paprika);
+    transition: all 0.2s ease;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.9rem;
+}
+.input-group .btn:hover {
+    background-color: var(--rouge-paprika);
+    color: white;
+    transform: translateY(-2px);
+}
+.caserne-link {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    background-color: #f5f5f5;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    color: #555;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin-bottom: 1rem;
+}
+.caserne-link:hover {
+    background-color: #efefef;
+    color: var(--rouge-paprika);
+    border-color: var(--rouge-paprika);
+    transform: translateY(-2px);
 }
