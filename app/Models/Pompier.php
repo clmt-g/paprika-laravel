@@ -9,13 +9,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Pompier extends Model
 {
-    //
-    protected $primaryKey = 'Matricule';
-    protected $keyType = 'string';
     use SoftDeletes;
 
-    // désactiver les timestamps
+    protected $table = 'pompiers';
+    protected $primaryKey = 'Matricule';
+    protected $keyType = 'string';
+    public $incrementing = false;
     public $timestamps = false;
+
+    protected $fillable = [
+        'Matricule',
+        'Nom',
+        'Prenom',
+        'ChefAgret',
+        'NumCaserne',
+        'DateNaissance',
+        'CodeGrade',
+        'MatriculeRespo',
+    ];
 
     /**
      * Get the caserne associated with the pompier.

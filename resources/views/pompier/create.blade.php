@@ -53,7 +53,7 @@
                         <option value="">-- Choisir un résponsable --</option>
                         @foreach($pompiers as $pompier)
                             <option value="{{ $pompier->Matricule }}">
-                                {{ $pompier->Matricule }} | {{ $pompier->Prenom }} {{ $pompier->Nom }}}
+                                {{ $pompier->Matricule }} | {{ $pompier->Prenom }} {{ $pompier->Nom }}
                             </option>
                         @endforeach
                     </select>

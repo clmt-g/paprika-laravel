@@ -3,6 +3,23 @@
 @section('title', 'Paprika - pompiers')
 
 @section('content')
+    {{-- Messages flash --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="fade-in">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="bi bi-fire text-danger"></i> Liste des pompiers</h2>
@@ -28,6 +45,7 @@
                         <th>Chef d'agré</th>
                         <th>Date de naissance</th>
                         <th>Caserne</th>
+                        <th>Effectif</th>
                         <th>Grade</th>
                         <th>Responsable</th>
                         <th class="text-center">Actions</th>
@@ -53,6 +71,7 @@
                                     {{ $pompier->caserne->Ville }}
                                 </a>
                             </td>
+                            <td>{{ count($pompier->caserne->pompiers) }}</td>
                             <td><span class="badge bg-info">{{ $pompier->grade->NomGrade }}</span></td>
                             <td>
                                 <a href="#" class="text-decoration-none text-danger fw-bold">
@@ -65,7 +84,7 @@
                                     <a href="{{ route('pompiers.detail', $pompier->Matricule) }}" class="btn btn-outline-primary" title="Détails">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="#" class="btn btn-outline-warning" title="Modifier">
+                                    <a href="{{ route('pompiers.update', $pompier->Matricule) }}" class="btn btn-outline-warning" title="Modifier">
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <a href="#" class="btn btn-outline-danger" title="Supprimer" onclick="loadDeleteModal('/pompiers/delete/{{ $pompier->Matricule }}')">
@@ -113,6 +132,18 @@
                     });
                 });
         }
+        // Auto-dismiss les alertes après 3 secondes
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    // Utilise Bootstrap pour fermer proprement l'alerte
+                    const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                    bsAlert.close();
+                }, 3000); // 3000ms = 3 secondes
+            });
+        });
     </script>
 @endpush
 

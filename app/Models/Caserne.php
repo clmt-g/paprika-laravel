@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Caserne extends Model
 {
-    //
-    protected $primaryKey = 'Matricule';
-    protected $keyType = 'integer';
     use SoftDeletes;
 
-    // désactiver les timestamps
+    protected $table = 'casernes';
+    protected $primaryKey = 'NumCaserne';
+    protected $keyType = 'integer';
+    public $incrementing = false;
     public $timestamps = false;
 
     /**
@@ -21,6 +21,6 @@ class Caserne extends Model
      */
     public function pompiers(): HasMany
     {
-        return $this->hasMany(Pompier::class); // FIXME 'foreign key' and 'local_key'
+        return $this->hasMany(Pompier::class, 'NumCaserne', 'NumCaserne');
     }
 }

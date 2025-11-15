@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PompierController;
+use App\Models\Caserne;
 use App\Models\Pompier;
 use Illuminate\Support\Facades\Route;
 
@@ -9,10 +10,11 @@ Route::get('/', [\App\Http\Controllers\DefaultController::class, 'index'])->name
 Route::get('/pompiers', [PompierController::class, 'show'])->name('pompiers');
 Route::get('/pompiers/detail/{id}', [PompierController::class, 'detail'])->name('pompiers.detail');
 Route::get('/pompiers/create', [PompierController::class, 'create'])->name('pompiers.create');
+Route::get('/pompiers/update/{id}', [PompierController::class, 'update'])->name('pompiers.update');
 
 // ============= Pompier post =============
-Route::post('/pompiers/create', [PompierController::class, 'store'])
-    ->name('pompiers.do_create');
+Route::post('/pompiers/create', [PompierController::class, 'do_create'])->name('pompiers.do_create');
+Route::post('/pompiers/do_update/{id}', [PompierController::class, 'do_update'])->name('pompiers.do_update');
 
 // ============= Caserne get =============
 
@@ -41,9 +43,17 @@ Route::get('/scratch', function () {
     //$pompier->delete();
 
     // ===== get num caserne =====
-    $pompier = Pompier::find("P000006");
-    $caserne = $pompier->caserne->Ville;
-    dd($caserne);
+    //$pompier = Pompier::find("P000006");
+    //$caserne = $pompier->caserne->Ville;
+    //dd($caserne);
+
+    // ===== récupérer le dernier pompier =====
+    //$pompier = Pompier::orderBy('Matricule', 'desc')->first();
+    //dd($pompier);
+
+    // ===== le nb de pompiers dans une caserne =====
+    $caserne = Caserne::find(5);
+    dd(count($caserne->pompiers));
 });
 Route::get('/name/{nom}', function ($nom, Request $r) {
 
