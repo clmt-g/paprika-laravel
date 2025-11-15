@@ -50,7 +50,7 @@
                 <a href="{{ route('pompiers') }}" class="btn btn-secondary me-2">
                     <i class="bi bi-arrow-left"></i> Retour à la liste
                 </a>
-                <a href="#" class="btn btn-danger">
+                <a href="{{ route('pompiers.update', $pompier->Matricule) }}" class="btn btn-danger">
                     <i class="bi bi-pencil"></i> Modifier ce pompier
                 </a>
             </div>

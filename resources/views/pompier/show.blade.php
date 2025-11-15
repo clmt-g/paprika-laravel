@@ -65,19 +65,34 @@
                             @endif
                             <td>{{ $pompier->DateNaissance }}</td>
                             <td>
-                                <a href="/caserne/show/detail/{{ $pompier->caserne->Ville }}"
-                                   class="text-decoration-none text-danger fw-bold">
-                                    <i class="bi bi-geo-alt-fill"></i>
-                                    {{ $pompier->caserne->Ville }}
-                                </a>
+                                @if($pompier->caserne)
+                                    <a href="#"
+                                       class="text-decoration-none text-danger fw-bold">
+                                        <i class="bi bi-geo-alt-fill"></i>
+                                        {{ $pompier->caserne->Ville }}
+                                    </a>
+                                @else
+                                    <span class="text-muted">Non affilié</span>
+                                @endif
                             </td>
-                            <td>{{ count($pompier->caserne->pompiers) }}</td>
+                            <td>
+                                @if($pompier->caserne)
+                                    {{ count($pompier->caserne->pompiers) }}
+                                @else
+                                    -----
+                                @endif
+                            </td>
                             <td><span class="badge bg-info">{{ $pompier->grade->NomGrade }}</span></td>
                             <td>
-                                <a href="#" class="text-decoration-none text-danger fw-bold">
-                                    <i class="bi bi-shield-fill-check"></i>
-                                    {{ $pompier->responsable->Prenom }} {{ $pompier->responsable->Nom }}
-                                </a>
+                                @if($pompier->responsable)
+                                    <a href="{{ route('pompiers.detail', $pompier->responsable->Matricule) }}"
+                                       class="text-decoration-none text-danger fw-bold">
+                                        <i class="bi bi-person-badge-fill"></i>
+                                        {{ $pompier->responsable->Prenom }} {{ $pompier->responsable->Nom }}
+                                    </a>
+                                @else
+                                    <span class="text-muted">Aucun responsable</span>
+                                @endif
                             </td>
                             <td class="text-center">
                                 <div class="btn-group btn-group-sm">
@@ -87,7 +102,7 @@
                                     <a href="{{ route('pompiers.update', $pompier->Matricule) }}" class="btn btn-outline-warning" title="Modifier">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="#" class="btn btn-outline-danger" title="Supprimer" onclick="loadDeleteModal('/pompiers/delete/{{ $pompier->Matricule }}')">
+                                    <a href="#" class="btn btn-outline-danger" title="Supprimer" onclick="loadDeleteModal('{{ route('pompiers.delete', $pompier->Matricule) }}')">
                                         <i class="bi bi-trash"></i>
                                     </a>
                                 </div>

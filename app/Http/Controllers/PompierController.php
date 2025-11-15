@@ -7,6 +7,7 @@ use App\Models\Grade;
 use App\Models\Pompier;
 use Illuminate\Http\Request;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Code;
+use Mockery\Exception;
 
 class PompierController extends Controller
 {
@@ -31,7 +32,7 @@ class PompierController extends Controller
     public function do_create(Request $request)
     {
         // Validation
-        $validated = $this->validate($request, True);
+        $validated = $this->validatePompier($request);
 
         try {
             // Générer le matricule automatiquement
@@ -59,20 +60,65 @@ class PompierController extends Controller
             return redirect()
                 ->back()
                 ->withInput()
-                ->with('error', 'Une erreur est survenue lors de la création du pompier.');
+                ->with('error', 'Erreur : ' . $e->getMessage());
         }
     }
 
-    public function update($id) {
-        $pompier = Pompier::find($id);
+    public function update($matricule) {
+        $pompier = Pompier::find($matricule);
         $grades = Grade::all();
         $casernes = Caserne::all();
         $pompiers = Pompier::all();
         return view('pompier.update', ['pompier' => $pompier, 'grades' => $grades, 'casernes' => $casernes, 'pompiers' => $pompiers]);
     }
 
-    public function do_update(Request $request, $id) {
+    public function do_update(Request $request, $matricule)
+    {
+        $validated = $this->validatePompier($request);
 
+        try {
+            $pompier = Pompier::findOrFail($matricule); // erreur 404 si le pompier est introuvable
+
+            $pompier->update([
+                'Nom' => $validated['nom'],
+                'Prenom' => $validated['prenom'],
+                'ChefAgret' => $validated['chefAgret'] ?? null,
+                'NumCaserne' => $validated['numCaserne'],
+                'DateNaissance' => $validated['dateNaissance'],
+                'CodeGrade' => $validated['codeGrade'],
+                'MatriculeRespo' => $validated['matriculeRespo'] ?? null,
+            ]);
+
+            return redirect()
+                ->route('pompiers')
+                ->with('success', 'Le pompier a été mis à jour avec succès !');
+
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Erreur : ' . $e->getMessage());
+        }
+    }
+
+    public function delete($matricule) {
+        $pompier = Pompier::find($matricule);
+        return view('pompier.delete', ['pompier' => $pompier]);
+    }
+
+    public function do_delete($matricule) {
+        try {
+            $pompier = Pompier::findOrFail($matricule);
+            $pompier->delete();
+            return redirect()
+                ->route('pompiers')
+                ->with('success', 'Le pompier a été supprimé avec succès');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Erreur : ' . $e->getMessage());
+        }
     }
 
     /**

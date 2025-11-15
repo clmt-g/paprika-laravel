@@ -11,10 +11,12 @@ Route::get('/pompiers', [PompierController::class, 'show'])->name('pompiers');
 Route::get('/pompiers/detail/{id}', [PompierController::class, 'detail'])->name('pompiers.detail');
 Route::get('/pompiers/create', [PompierController::class, 'create'])->name('pompiers.create');
 Route::get('/pompiers/update/{id}', [PompierController::class, 'update'])->name('pompiers.update');
+Route::get('/pompiers/delete/{id}', [PompierController::class, 'delete'])->name('pompiers.delete');
 
 // ============= Pompier post =============
 Route::post('/pompiers/create', [PompierController::class, 'do_create'])->name('pompiers.do_create');
 Route::post('/pompiers/do_update/{id}', [PompierController::class, 'do_update'])->name('pompiers.do_update');
+Route::delete('/pompiers/do_delete/{id}', [PompierController::class, 'do_delete'])->name('pompiers.do_delete');
 
 // ============= Caserne get =============
 
@@ -52,8 +54,8 @@ Route::get('/scratch', function () {
     //dd($pompier);
 
     // ===== le nb de pompiers dans une caserne =====
-    $caserne = Caserne::find(5);
-    dd(count($caserne->pompiers));
+    //$caserne = Caserne::find(5);
+    //dd(count($caserne->pompiers));
 });
 Route::get('/name/{nom}', function ($nom, Request $r) {
 
